@@ -35,5 +35,27 @@ public class ProductService {
 	public List<ProductModel> getAll() {
 		return productRepository.findAll();
 	}
+	
+	public String update(Long id, ProductModel model) throws ItemNotFoundException {
+		ProductModel updatedProduct = getById(id);
+
+		if (model.getName() != null) {
+			updatedProduct.setName(model.getName());
+		}
+		if (model.getQuantity() != null) {
+			updatedProduct.setQuantity(model.getQuantity());
+		}
+		
+		productRepository.save(updatedProduct);
+		
+		return String.format("Produto ID %d atualizado com sucesso!", id);
+	}
+	
+	public String delete(Long id) throws ItemNotFoundException {
+		getById(id);
+		productRepository.deleteById(id);
+		
+		return String.format("Produto ID %d deletado com sucesso!", id);
+	}
 
 }
