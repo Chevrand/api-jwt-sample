@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import br.com.neki.proj01.dto.UserDto;
+import br.com.neki.proj01.dto.UserDtoRequestPost;
 import br.com.neki.proj01.mapper.UserMapper;
 import br.com.neki.proj01.security.JwtUtil;
 import br.com.neki.proj01.security.UserAuthenticationRequest;
@@ -33,7 +32,7 @@ public class UserController {
 	UserDetailService userDetailService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<String> save(@RequestBody UserDto dto) {
+	public ResponseEntity<String> save(@RequestBody UserDtoRequestPost dto) {
 		return ResponseEntity.ok(userService.save(userMapper.toModel(dto)));
 	}
 	
@@ -41,7 +40,8 @@ public class UserController {
 	public String createAuthentication(@RequestBody UserAuthenticationRequest user) throws Exception {
 		try {
 			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+			);
 		} catch (Exception e) {
 			throw new Exception("Senha incorreta", e);
 		}

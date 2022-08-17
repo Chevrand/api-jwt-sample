@@ -1,10 +1,13 @@
 package br.com.neki.proj01.model;
 
+import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -14,37 +17,32 @@ public class UserModel {
 	
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	@Column(name="user_id")
-	private Long id;
+	@Column(name="id")
+	private Integer id;
 	
 	@NotNull
-	@Column(name="user_name")
-	private String name;
-	
-	@NotNull
-	@Column(name="user_login")
+	@Column(name="login")
 	private String login;
 	
 	@NotNull
-	@Column(name="user_password")
+	@Column(name="password")
 	private String password;
+	
+	@Column(name="last_login_date")
+	private LocalDate lastLoginDate;
+	
+	@OneToMany(mappedBy = "user")
+	@Column(name = "list_user_skill")
+	private List<UserSkillModel> userSkills;
 
 	public UserModel() {}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getLogin() {
@@ -61,6 +59,14 @@ public class UserModel {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public LocalDate getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(LocalDate lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
 	}	
 	
 }
